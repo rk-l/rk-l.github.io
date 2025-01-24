@@ -199,18 +199,18 @@
      * 4. ゲーム初期化処理
      ***********************************************/
     // ひらがなをランダムに8個選び、「ね」を必ず含める
-      function getRandomHiragana() {
-      const selected = ["ね"]; // 「ね」を必ず入れる
-      const others = allHiragana.filter(h => h !== "ね");
-      while (selected.length < 8) {
-        const randomIndex = Math.floor(Math.random() * others.length);
-        const randomHiragana = others[randomIndex];
-        if (!selected.includes(randomHiragana)) {
-          selected.push(randomHiragana);
-        }
-      }
-      return selected;
-    }
+    //   function getRandomHiragana() {
+    //   const selected = ["ね"]; // 「ね」を必ず入れる
+    //   const others = allHiragana.filter(h => h !== "ね");
+    //   while (selected.length < 8) {
+    //     const randomIndex = Math.floor(Math.random() * others.length);
+    //     const randomHiragana = others[randomIndex];
+    //     if (!selected.includes(randomHiragana)) {
+    //       selected.push(randomHiragana);
+    //     }
+    //   }
+    //   return selected;
+    // }
      function initGame() {
       message.textContent = "";
       board.innerHTML     = "";
