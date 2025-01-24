@@ -270,4 +270,17 @@
     // オーバーレイを閉じる
     function hideAnimalOverlay() {
       overlay.classList.remove("show");
- 
+      // 必要なら animalImage.src = ""; などで初期化しても良い
+    }
+
+    // リスタート
+    restartBtn.addEventListener("click", initGame);
+
+    // オーバーレイクリックで閉じる
+    overlay.addEventListener("click", hideAnimalOverlay);
+
+    // ページ読み込み時に初期化
+    window.onload = initGame;
+  </script>
+</body>
+</html>
