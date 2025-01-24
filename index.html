@@ -265,12 +265,28 @@
         animalImage.alt = "画像が見つかりません";
       }
       overlay.classList.add("show");
+    
+
+      // 3 seconds はクリックを無効にする
+      overlayLocked = true;
+      setTimeout(() => {
+        overlayLocked = false;
+      }, 3000);
     }
 
-    // オーバーレイを閉じる
+    // オーバーレイを閉じる（クリックイベント）
+    overlay.addEventListener("click", () => {
+      // ロック中は何もしない
+      if (overlayLocked) {
+        return;
+      }
+      hideAnimalOverlay();
+    });
+
     function hideAnimalOverlay() {
       overlay.classList.remove("show");
-      // 必要なら animalImage.src = ""; などで初期化しても良い
+      // 画像をリセットしたいなら:
+      animalImg.src = "";
     }
 
     // リスタート
