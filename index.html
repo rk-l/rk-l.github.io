@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ひらがなパズル</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      background-color: #ffcccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      cursor: pointer;
+      border-radius: 8px;
+      user-select: none;
+      transition: background-color 0.2s;
+    }
+
+    .card.flipped {
+      background-color: #fff;
+    }
+
+    .hidden {
+      visibility: hidden; /* マッチ後、カードを見えなくする */
+    }
+
+    #message {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    #restart-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #ff9999;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #restart-btn:hover {
+      background-color: #ff5555;
+    }
+  </style>
+</head>
+<body>
+  <h1>ひらがなパズル</h1>
+  <div id="game-board"></div>
+  <div id="message"></div>
+  <button id="restart-btn">リスタート</button>
+
+  <script>
+    // パズルに使用するひらがな配列（ペアで使うので2つずつになる）
+    const hiraganaArray = ["あ", "い", "う", "え", "か", "き", "く", "け"];
+
+    let board = document.getElementById("game-board");
+    let message = document.getElementById("message");
+    let restartBtn = document.getElementById("restart-btn");
+
+    let cards = [];         // カード要素を格納
+    let flippedCards = [];  // 選択中のカードを格納
+    let matchedCount = 0;   // マッチしたペアの数
+
+    // ゲームを初期化する関数
+    function initGame() {
+      // メッセージとボードの初期化
+      message.textContent = "";
+      board.innerHTML = "";
+
+      // すでにあるカード配列を空にする
+      cards = [];
+      flippedCards = [];
+      matchedCount = 0;
+
+      // ひらがなを2セット用意し、合計16枚にする
+      // [あ,い,う,え,か,き,く,け, あ,い,う,え,か,き,く,け]
+      let cardValues = hiraganaArray.concat(hiraganaArray);
+
+      // シャッフル
+      shuffleArray(cardValues);
+
+      // カード要素を作成してボードに追加
+      cardValues.forEach((value, index) => {
+        let card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.value = value; // カードのひらがな情報を保持
+        card.dataset.index = index; // カードを一意に識別するためのインデックス
+
+        // カードをクリックしたときの処理
+        card.addEventListener("click", () => {
+          flipCard(card);
+        });
+
+        // カードを配列にも保存
+        cards.push(card);
+        board.appendChild(card);
+      });
+    }
+
+    // 配列をシャッフルする関数 (Fisher-Yates シャッフル)
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    // カードをめくる処理
+    function flipCard(card) {
+      // すでにマッチしたカードや、すでに裏返しているカードは操作しない
+      if (
+        card.classList.contains("flipped") ||
+        card.classList.contains("hidden") ||
+        flippedCards.length === 2
+      ) {
+        return;
+      }
+
+      // カードを表示（flippedクラスを付与）
+      card.classList.add("flipped");
+      card.textContent = card.dataset.value;
+
+      // 選択中のカードとして配列に追加
+      flippedCards.push(card);
+
+      // 選択中のカードが2枚になったら判定
+      if (flippedCards.length === 2) {
+        checkMatch();
+      }
+    }
+
+    // 2枚のカードが一致するか判定し、一致したら処理
+    function checkMatch() {
+      let card1 = flippedCards[0];
+      let card2 = flippedCards[1];
+
+      // 同じひらがなかどうか
+      if (card1.dataset.value === card2.dataset.value) {
+        // マッチしたらカードを非表示にする
+        setTimeout(() => {
+          card1.classList.add("hidden");
+          card2.classList.add("hidden");
+          matchedCount++;
+          flippedCards = [];
+
+          // 全部マッチしたかどうか
+          if (matchedCount === hiraganaArray.length) {
+            message.textContent = "おめでとうございます！全部マッチしました！";
+          }
+        }, 500);
+      } else {
+        // 違えば元に戻す
+        setTimeout(() => {
+          card1.classList.remove("flipped");
+          card2.classList.remove("flipped");
+          card1.textContent = "";
+          card2.textContent = "";
+          flippedCards = [];
+        }, 1000);
+      }
+    }
+
+    // リスタートボタンの挙動
+    restartBtn.addEventListener("click", () => {
+      initGame();
+    });
+
+    // ページが読み込まれたらゲーム初期化
+    window.onload = initGame;
+  </script>
+</body>
+</html>
