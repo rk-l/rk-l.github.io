@@ -131,7 +131,20 @@
      * 1. ひらがな一覧（例: 8文字）
      ***********************************************/
     const hiraganaArray = ["あ", "い", "う", "え", "か", "き", "く", "け"];
-
+    const allHiragana = [
+      "あ", "い", "う", "え", "お",
+      "か", "き", "く", "け", "こ",
+      "さ", "し", "す", "せ", "そ",
+      "た", "ち", "つ", "て", "と",
+      "な", "に", "ぬ", "ね", "の",
+      // "は", 
+      "ひ", "ふ", 
+      // "へ", "ほ",
+      // "ま", "み", "む", "め", "も",
+      // "や", "ゆ", "よ",
+      // "ら", "り", "る", "れ", "ろ",
+      // "わ", "を", "ん"
+    ];
     /***********************************************
      * 2. ひらがな→PNG画像のマッピング
      ***********************************************/
@@ -143,7 +156,26 @@
       "か": { name: "かば",        url: "images/hipopotamus.png"    },
       "き": { name: "きじ",        url: "images/phesant.png"     },
       "く": { name: "くま",          url: "images/bear.png"    },
-      "け": { name: "けーぷぺんぎん", url: "images/capepenguin.png" }
+      "け": { name: "けーぷぺんぎん", url: "images/capepenguin.png" },
+      "こ": { name: "こあら",       url: "images/koala.png"   },
+      "さ": { name: "さめ",          url: "images/monkey.png"  },
+      "し": { name: "しまうま",     url: "images/zebra.png"   },
+      "す": { name: "すずめ",       url: "images/sparrow.png" },
+      "せ": { name: "せいうち",   url: "images/walrus.png" },
+      "そ": { name: "そりにのったそまりねこ", url: "images/somalicatonsled.png" },
+      "た": { name: "たぬき",       url: "images/raccoondog.png" },
+      "ち": { name: "ちーたー", url: "images/cheetah.png" },
+      "つ": { name: "つばめ",         url: "images/swallow.png"   },
+      "て": { name: "てんとうむし",          url: "images/ladybug.png"     },
+      "と": { name: "とら",         url: "images/tiger.png"   },
+      "な": { name: "なまけもの",   url: "images/sloth.png"   },
+      "に": { name: "にわとり",     url: "images/chicken.png" },
+      "ぬ": { name: "ぬー",         url: "images/nu.png"     },
+      "ね": { name: "ねこ",         url: "images/cat.png"     },
+      "の": { name: "のねずみ",       url: "images/mouse.png"     },
+      // "は": { name: "はむすたー",   url: "images/hamster.png" },
+      "ひ": { name: "ひつじ",       url: "images/sheep.png"   },
+      "ふ": { name: "ふくろう",     url: "images/owl.png"     },
     };
 
     /***********************************************
@@ -166,6 +198,19 @@
     /***********************************************
      * 4. ゲーム初期化処理
      ***********************************************/
+    // ひらがなをランダムに8個選び、「ね」を必ず含める
+      function getRandomHiragana() {
+      const selected = ["ね"]; // 「ね」を必ず入れる
+      const others = allHiragana.filter(h => h !== "ね");
+      while (selected.length < 8) {
+        const randomIndex = Math.floor(Math.random() * others.length);
+        const randomHiragana = others[randomIndex];
+        if (!selected.includes(randomHiragana)) {
+          selected.push(randomHiragana);
+        }
+      }
+      return selected;
+    }
      function initGame() {
       message.textContent = "";
       board.innerHTML     = "";
@@ -173,6 +218,7 @@
       flippedCards = [];
       matchedCount = 0;
       overlayLocked = false; // 初期状態はロック解除
+      const hiraganaSet = getRandomHiragana();
 
       // ひらがなを2セット用意
       let cardValues = hiraganaArray.concat(hiraganaArray);
