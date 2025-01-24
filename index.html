@@ -1,60 +1,74 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <title>ひらがなパズル</title>
+  <meta charset="UTF-8">
+  <title>ひらがなパズル（レスポンシブ）</title>
   <style>
     body {
-      font-family: sans-serif;
-      text-align: center;
-      background-color: #f4f4f4;
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
     }
 
     h1 {
-      margin-bottom: 10px;
+      margin: 20px 0;
     }
 
     #game-board {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-      gap: 10px;
-      max-width: 600px;
+      /* 画面幅に合わせて横幅を縮める（余白を少し空ける） */
+      width: 90vw;
+      max-width: 600px; /* 大きい画面でも横幅が広がりすぎないよう制限 */
       margin: 0 auto;
+      display: grid;
+      gap: 10px;
+
+      /* 
+        画面サイズに応じて列数を自動調整する例:
+        repeat(auto-fill, minmax(80px, 1fr)) 
+        
+        今回は 4 列固定にしたい場合は: repeat(4, 1fr)
+      */
+      grid-template-columns: repeat(4, 1fr);
     }
 
+    /* カードのデザイン */
     .card {
-      width: 100px;
-      height: 100px;
       background-color: #ffcccc;
+      border-radius: 8px;
+      font-size: 2rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 2rem;
       cursor: pointer;
-      border-radius: 8px;
       user-select: none;
       transition: background-color 0.2s;
+
+      /* 
+        aspect-ratio: 1 で「縦横比 1:1 の正方形」を保つ 
+        (対応していないブラウザの場合は後述のフォールバックが必要)
+      */
+      aspect-ratio: 1 / 1; 
     }
 
     .card.flipped {
       background-color: #fff;
     }
 
-    .hidden {
-      visibility: hidden; /* マッチ後、カードを見えなくする */
+    .card.hidden {
+      visibility: hidden;
     }
 
     #message {
       font-size: 1.2rem;
-      margin-top: 20px;
+      margin-top: 10px;
       color: #333;
     }
 
     #restart-btn {
       display: inline-block;
-      margin-top: 20px;
+      margin: 20px;
       padding: 10px 20px;
       background-color: #ff9999;
       color: #fff;
@@ -62,7 +76,6 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     #restart-btn:hover {
       background-color: #ff5555;
     }
@@ -75,54 +88,49 @@
   <button id="restart-btn">リスタート</button>
 
   <script>
-    // パズルに使用するひらがな配列（ペアで使うので2つずつになる）
+    // 使用するひらがな
     const hiraganaArray = ["あ", "い", "う", "え", "か", "き", "く", "け"];
 
     let board = document.getElementById("game-board");
     let message = document.getElementById("message");
     let restartBtn = document.getElementById("restart-btn");
 
-    let cards = [];         // カード要素を格納
-    let flippedCards = [];  // 選択中のカードを格納
-    let matchedCount = 0;   // マッチしたペアの数
+    let cards = [];
+    let flippedCards = [];
+    let matchedCount = 0;
 
-    // ゲームを初期化する関数
+    // ゲーム初期化
     function initGame() {
-      // メッセージとボードの初期化
       message.textContent = "";
       board.innerHTML = "";
 
-      // すでにあるカード配列を空にする
       cards = [];
       flippedCards = [];
       matchedCount = 0;
 
-      // ひらがなを2セット用意し、合計16枚にする
-      // [あ,い,う,え,か,き,く,け, あ,い,う,え,か,き,く,け]
+      // ひらがなを2セット用意
       let cardValues = hiraganaArray.concat(hiraganaArray);
 
       // シャッフル
       shuffleArray(cardValues);
 
-      // カード要素を作成してボードに追加
+      // カード生成
       cardValues.forEach((value, index) => {
         let card = document.createElement("div");
         card.classList.add("card");
-        card.dataset.value = value; // カードのひらがな情報を保持
-        card.dataset.index = index; // カードを一意に識別するためのインデックス
+        card.dataset.value = value;
+        card.dataset.index = index;
 
-        // カードをクリックしたときの処理
         card.addEventListener("click", () => {
           flipCard(card);
         });
 
-        // カードを配列にも保存
         cards.push(card);
         board.appendChild(card);
       });
     }
 
-    // 配列をシャッフルする関数 (Fisher-Yates シャッフル)
+    // 配列シャッフル (Fisher-Yates)
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
@@ -130,9 +138,8 @@
       }
     }
 
-    // カードをめくる処理
+    // カードをめくる
     function flipCard(card) {
-      // すでにマッチしたカードや、すでに裏返しているカードは操作しない
       if (
         card.classList.contains("flipped") ||
         card.classList.contains("hidden") ||
@@ -140,41 +147,34 @@
       ) {
         return;
       }
-
-      // カードを表示（flippedクラスを付与）
       card.classList.add("flipped");
       card.textContent = card.dataset.value;
-
-      // 選択中のカードとして配列に追加
       flippedCards.push(card);
 
-      // 選択中のカードが2枚になったら判定
       if (flippedCards.length === 2) {
         checkMatch();
       }
     }
 
-    // 2枚のカードが一致するか判定し、一致したら処理
+    // マッチ判定
     function checkMatch() {
       let card1 = flippedCards[0];
       let card2 = flippedCards[1];
 
-      // 同じひらがなかどうか
       if (card1.dataset.value === card2.dataset.value) {
-        // マッチしたらカードを非表示にする
+        // マッチ
         setTimeout(() => {
           card1.classList.add("hidden");
           card2.classList.add("hidden");
           matchedCount++;
           flippedCards = [];
 
-          // 全部マッチしたかどうか
           if (matchedCount === hiraganaArray.length) {
             message.textContent = "おめでとうございます！全部マッチしました！";
           }
         }, 500);
       } else {
-        // 違えば元に戻す
+        // 不一致
         setTimeout(() => {
           card1.classList.remove("flipped");
           card2.classList.remove("flipped");
@@ -185,12 +185,10 @@
       }
     }
 
-    // リスタートボタンの挙動
-    restartBtn.addEventListener("click", () => {
-      initGame();
-    });
+    // リスタート
+    restartBtn.addEventListener("click", initGame);
 
-    // ページが読み込まれたらゲーム初期化
+    // ページ読み込み時に初期化
     window.onload = initGame;
   </script>
 </body>
