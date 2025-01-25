@@ -8,6 +8,7 @@
       font-family: sans-serif;
       margin: 20px;
       text-align: center;
+
     }
     #title-image {
     width: 100px;    /* 幅を400pxに指定 */
@@ -259,7 +260,7 @@
 
       if (currentWord === puzzle.name) {
         // 正解
-        resultArea.textContent = "正解！次の問題へ進みます。";
+        resultArea.textContent = "せいかい！";
         setTimeout(() => {
           currentPuzzleIndex++;
           loadPuzzle(currentPuzzleIndex);
