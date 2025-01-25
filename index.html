@@ -75,7 +75,7 @@
     <h1>どうぶつだれだ？</h1>
     <!-- BGM用のaudio。autoplayはつけず、loopだけON -->
     <audio id="bgm1st" src="./sounds/アメリカの小さなあやちゃん.mp3" autoplay loop></audio>
-    <audio id="bgm" src="./sounds.Bouncing Blocks.mp3" loop></audio>
+    <audio id="bgm" src="./sounds/Bouncing Blocks.mp3" loop></audio>
     <!-- 【初期画面】 -->
     <div id="initial-screen">
         <div>
@@ -122,7 +122,7 @@
         name: "いぬ"
       },
       {
-        image: "./imagescat.png",   // 任意のパスに差し替えてください
+        image: "./images/cat.png",   // 任意のパスに差し替えてください
         name: "ねこ"
       }
     ];
@@ -270,7 +270,7 @@
           return;
         } else {
           // 文字数が同じか超えてる場合に不正解ならやり直し
-          resultArea.textContent = "ちがいます。もう一度トライ！";
+          resultArea.textContent = "";
           clickedSequence = [];
           document.getElementById("answer").textContent = "";
         }
