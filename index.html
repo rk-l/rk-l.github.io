@@ -10,20 +10,38 @@
       text-align: center;
 
     }
-    #title-image {
-    width: 100px;    /* 幅を400pxに指定 */
-    height: auto;    /* 高さはアスペクト比を維持して自動調整 */
-    }
+    /* コンテナ自体は最大600pxにし、画面が狭い場合は縮小して中央寄せ */
     #puzzle-container {
-      max-width: 200px;
+      max-width: 600px;
       margin: 0 auto;
       border: 1px solid #ccc;
       padding: 10px;
       border-radius: 8px;
     }
+  
+    /* タイトル画像をレスポンシブに表示 */
+    #title-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 10px;
+    }
 
+    #startBtn {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    /* BGMのaudioタグは非表示。必要に応じてcontrols属性を使う */
+    audio {
+      display: none;
+    }
+
+    /* ゲーム表示部分 */
     #image-container img {
-      max-width: 100px;
+      max-width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
@@ -32,7 +50,7 @@
     #answer {
       margin: 20px 0;
       font-size: 1.5em;
-      min-height: 1.5em; /* 簡易的なスペースを作る */
+      min-height: 1.5em; /* 簡易的なスペース */
     }
 
     #letters {
@@ -49,9 +67,8 @@
       font-size: 1.2em;
       cursor: pointer;
       transition: background-color 0.2s;
-      color: #333; /* 初期文字色 */
+      color: #333;
     }
-
     .letter-btn:hover {
       opacity: 0.8;
     }
@@ -61,13 +78,6 @@
       font-size: 1.2em;
       color: green;
       min-height: 1.2em; /* 結果メッセージ用のスペース */
-    }
-    /* スタートボタン */
-    #startBtn {
-      font-size: 1.2em;
-      padding: 10px 20px;
-      margin-bottom: 10px;
-      cursor: pointer;
     }
   </style>
 </head>
