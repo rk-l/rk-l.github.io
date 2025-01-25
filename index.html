@@ -6,13 +6,13 @@
   <style>
     body {
       font-family: sans-serif;
-      margin: 20px;
+      margin: 18px;
       text-align: center;
 
     }
-    /* コンテナ自体は最大600pxにし、画面が狭い場合は縮小して中央寄せ */
+    /* コンテナ自体は最大300pxにし、画面が狭い場合は縮小して中央寄せ */
     #puzzle-container {
-      max-width: 600px;
+      max-width: 300px;
       margin: 0 auto;
       border: 1px solid #ccc;
       padding: 10px;
@@ -124,26 +124,55 @@
     // name: イラストが示す単語（正解となるひらがな）
     // 文字配列はコード内で生成するので、ここでは指定しない。
     const puzzles = [
-      { name: "あざらし",       image: "./images/seal.png"    },
-      { name: "いぬ",           image: "./images/dog.png"    },
-      { name: "うさぎ",        image: "./images/rabbit.png"  },
-      { name: "えび",         image: "./images/shrimp.png"  },
-      { name: "かば",        image: "./images/hipopotamus.png"    },
-      { name: "きじ",        image: "./images/phesant.png"     },
-      { name: "くま",          image: "./images/bear.png"    },
-      {
-        
-        image: "./images/mouse.png", // 任意のパスに差し替えてください
-        name: "のねずみ"
-      },
-      {
-        image: "./images/dog.png",   // 任意のパスに差し替えてください
-        name: "いぬ"
-      },
-      {
-        image: "./images/cat.png",   // 任意のパスに差し替えてください
-        name: "ねこ"
-      }
+      { name: "あざらし", names: ["あざらし"],       image: "./images/seal.png"    },
+      { name: "いぬ",  names: ["いぬ"],           image: "./images/dog.png"    },
+      { name: "うさぎ", names:["うさぎ"],        image: "./images/rabbit.png"  },
+      { name: "えび", names: ["えび"],         image: "./images/shrimp.png"  },
+      { name: "おうむ"  , names: ["おうむ"],        image: "./images/parrot.png"    },
+      { name: "かば",names: ["かば"],        image: "./images/hipopotamus.png"    },
+      { name: "きじ", names: ["きじ"],        image: "./images/phesant.png"     },
+      { name: "きりん", names: ["きりん"],        image: "./images/zirraff.png"     },
+      { name: "くま",  names: ["くま"],          image: "./images/bear.png"    },
+      { name: "けーぷはいらっくす",       image: "./images/capehylax.png", names: ["けーぷはいらっくす"] },
+      { name: "こあら",       image: "./images/koala.png", names: ["こあら"] },
+    //   { name: "さる",         image: "./images/monkey.png", names: ["さる"] },
+      { name: "さめ",         image: "./images/shark.png", names: ["さめ"] },
+      { name: "しまうま",     image: "./images/zebra.png", names: ["しまうま"] },
+      { name: "すずめ",       image: "./images/sparrow.png", names: ["すずめ"] },
+      { name: "せいうち",   image: "./images/walrus.png", names: ["せいうち"] },
+      { name: "そまりねこ", image: "./images/somalicatonsled.png", names: ["ねこ", "そり", "そまりねこ"] },
+      { name: "ねことたいこ",       image: "./images/drummingcat.png", names: ["たいこ", "ねこ"] },
+      { name: "たんぽぽ", image: "./images/dandeliion.png", names: ["たんぽぽ"] },
+      { name: "ちーたー", image: "./images/cheetah.png", names: ["ちーたー"] },
+      { name: "ねこのつり",         image: "./images/catfishing.png", names: ["ねこ", "つり"] },
+      { name: "てんとうむし",          image: "./images/ladybug.png", names: ["てんとうむし"] },
+      { name: "とら",         image: "./images/tiger.png", names: ["とら"] },
+      { name: "なまけもの",   image: "./images/sloth.png", names: ["なまけもの"] },
+      { name: "にわとり",     image: "./images/chicken.png", names: ["にわとり"] },
+      { name: "ぬー",         image: "./images/nu.png", names: ["ぬー"] },
+      { name: "ねこ",         image: "./images/cat.png", names: ["ねこ"] },
+      { name: "のねずみ",       image: "./images/mouse.png", names: ["のねずみ", "ねずみ"] },
+        { name: "はち",         image: "./images/bee.png", names: ["はち"] },
+      { name: "ひつじ",       image: "./images/sheep.png", names: ["ひつじ"] },
+       { name: "ふくろう",     image: "./images/hoho.png", names: ["ふくろう"] },
+        { name: "へび",         image: "./images/snake.png", names: ["へび"] },
+    //     { name: "ほたる",       image: "./images/firefly.png", names: ["ほたる"] },
+    //     { name: "まめ",         image: "./images/bean.png", names: ["まめ"] },
+    //     { name: "みつばち",     image: "./images/honeybee.png", names: ["みつばち"] },
+    //     { name: "むし",         image: "./images/insect.png", names: ["むし"] },
+      { name: "めがねねこ",     image: "./images/catwitheyeglass.png", names: ["ねこ", "めがね"] },
+    //     { name: "めだか",       image: "./images/medaka.png", names: ["めだか"] },
+        { name: "もぐら",     image: "./images/mole.png", names: ["もぐら"] },
+        { name: "やぎ",         image: "./images/goat.png", names: ["やぎ"] },
+        { name: "ゆきだるまねこ",     image: "./images/catwithsnowman.png", names: ["ゆきだるま", "ねこ"] },
+        // { name: "よろいねこ",       image: "./images/armedcat.png", names: ["よろい","ねこ"] },
+        { name: "らいおん",     image: "./images/lion.png", names: ["らいおん"] },
+        { name: "りす",         image: "./images/squirrel.png", names: ["りす"] },
+        // { name: "るす",         image: "./images/rus.png", names: ["るす"] },
+        { name: "れっさーぱんだ",       image: "./images/lesserpanda.png", names: ["れっさーぱんだ"] },
+        { name: "ろば",         image: "./images/donkey.png", names: ["ろば"] },
+        { name: "わに",         image: "./images/wani.png", names: ["わに"] },
+
     ];
 
     let currentPuzzleIndex = 0; // 現在の問題番号
@@ -205,6 +234,7 @@
 
       // クリックされた文字列の履歴をリセット
       clickedSequence = [];
+      expectedIndex = 0;
 
       // ひらがなボタンのエリアを初期化
       const lettersArea = document.getElementById("letters");
@@ -262,39 +292,51 @@
       });
     }
 
-    // ひらがなボタンがクリックされた時の処理
     function handleLetterClick(letter) {
-      clickedSequence.push(letter);
-      document.getElementById("answer").textContent = clickedSequence.join("");
-
-      checkAnswer();
-    }
-
-    // 正解判定
-    function checkAnswer() {
       const puzzle = puzzles[currentPuzzleIndex];
-      const currentWord = clickedSequence.join("");
+      const answerArea = document.getElementById("answer");
       const resultArea = document.getElementById("result");
 
-      if (currentWord === puzzle.name) {
-        // 正解
-        resultArea.textContent = "せいかい！";
-        setTimeout(() => {
-          currentPuzzleIndex++;
-          loadPuzzle(currentPuzzleIndex);
-        }, 1000);
-      } else {
-        // 正解より短い場合はまだ確定しないので何もしない
-        if (currentWord.length < puzzle.name.length) {
-          return;
-        } else {
-          // 文字数が同じか超えてる場合に不正解ならやり直し
-          resultArea.textContent = "";
-          clickedSequence = [];
-          document.getElementById("answer").textContent = "";
+      // 期待する文字
+      const correctChar = puzzle.name[expectedIndex];
+      const validPrefix = puzzle.names.some(name => (name[expectedIndex] == letter));
+
+      // 合っていれば次へ進む
+      if (validPrefix) {
+        // クリック履歴に追加して表示
+        clickedSequence.push(letter);
+        answerArea.textContent = clickedSequence.join("");
+
+        // 次の文字に進める
+        expectedIndex++;
+
+        // もし全部正解し終わったら(= expectedIndex が最終文字数に達したら)
+        if (puzzle.names.some(name => name.length==expectedIndex)) {
+          const currentWord = clickedSequence.join("");
+          if (puzzle.names.some(name => name == currentWord)) {
+            // ここで初めて正解メッセージを表示
+            resultArea.textContent = "せいかい！";
+            setTimeout(() => {
+              currentPuzzleIndex++;
+              loadPuzzle(currentPuzzleIndex);
+            }, 1000);
+          }
+        //   // ここで初めて正解メッセージを表示
+        //   resultArea.textContent = "せいかい！";
+        //   setTimeout(() => {
+        //     currentPuzzleIndex++;
+        //     loadPuzzle(currentPuzzleIndex);
+        //   }, 1000);
         }
+      } else {
+        // 間違えたらリセット
+        resultArea.textContent = "";
+        clickedSequence = [];
+        expectedIndex = 0;
+        answerArea.textContent = "";
       }
     }
+
 
     // ランダムなカラーコード（#RRGGBB形式）を生成
     function getRandomColor() {
